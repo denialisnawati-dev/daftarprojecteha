@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manajemen Projek - Full Fix</title>
+<title>Kontrol Projek - Final Fix</title>
 
 <style>
     body { background:#121212; color:#D4AF37; font-family:'Segoe UI', sans-serif; padding:20px; }
@@ -11,7 +11,7 @@
     
     h2 { text-align:center !important; color:#fff; margin-bottom:20px; text-transform:uppercase; letter-spacing:2px; }
     
-    /* FORM STYLES - RATA KIRI */
+    /* FORM STYLES - TEKS RATA KIRI */
     form { text-align: left !important; }
     label { display: block; margin-top: 15px; font-weight: bold; font-size: 13px; text-align: left !important; }
     input, select { 
@@ -26,7 +26,7 @@
         padding: 15px; border: none; margin-top: 10px; text-transform: uppercase; border-radius: 8px; 
     }
 
-    /* SUMMARY BOXES (CLICKABLE) */
+    /* SUMMARY BOXES (CLICKABLE/DAPAT DIPENCET) */
     .summary-container { display:flex; justify-content:space-around; margin:30px 0; gap: 15px; }
     .summary-box { 
         background:#222; padding:20px; border-radius:10px; width:100%; 
@@ -41,7 +41,7 @@
     .table-wrapper { width:100%; overflow-x:auto; margin-top:20px; }
     table { width:100%; border-collapse:collapse; min-width: 900px; }
     th, td { padding:12px; border-bottom:1px solid #333; font-size:12px; text-align: left !important; }
-    th { color:#D4AF37; }
+    th { color:#D4AF37; text-transform: uppercase; }
     td { color: #ffffff !important; }
     
     .status-pending { color:#ffca28 !important; font-weight:bold; }
@@ -50,6 +50,10 @@
     /* AUTH SECTION */
     .auth-box { max-width: 400px; margin: 100px auto; padding: 30px; border: 1px solid #D4AF37; border-radius: 15px; background: #1a1a1a; text-align: center; }
     #mainContent { display: none; }
+
+    /* BUTTON ACTION STYLES */
+    .btn-done { background: #D4AF37; border: none; padding: 5px 8px; cursor: pointer; border-radius: 4px; margin-right: 5px; }
+    .btn-delete { background: #ff4444; border: none; padding: 5px 8px; color: white; cursor: pointer; border-radius: 4px; }
 </style>
 </head>
 <body>
@@ -138,6 +142,7 @@ function checkSession() {
     }
 }
 
+// FUNGSI UNTUK FILTER (SEMUA/AKTIF/SELESAI)
 function setFilter(f) {
     currentFilter = f;
     document.getElementById('box-all').classList.toggle('active-filter', f === 'all');
@@ -174,6 +179,8 @@ function render(){
     
     data.forEach((d, i) => {
         if(d.status === "Pending") t_aktif++; else t_selesai++;
+        
+        // Logika filter status
         if (currentFilter === 'all' || d.status === currentFilter) {
             tbody.innerHTML += `
             <tr>
@@ -182,8 +189,8 @@ function render(){
                 <td class="${d.status=='Selesai'?'status-done':'status-pending'}">${d.status}</td>
                 <td>${d.deadline}</td>
                 <td>
-                    <button onclick="done(${i})" style="width:30px; cursor:pointer;">✔</button>
-                    <button onclick="hapus(${i})" style="width:30px; background:#ff4444; color:white; border:none; cursor:pointer;">×</button>
+                    <button class="btn-done" onclick="done(${i})" title="Selesai">✔</button>
+                    <button class="btn-delete" onclick="hapus(${i})" title="Hapus">×</button>
                 </td>
             </tr>`;
         }
@@ -193,8 +200,17 @@ function render(){
     document.getElementById("selesai").innerText = t_selesai;
 }
 
-function done(i){ data[i].status = "Selesai"; save(); }
-function hapus(i){ if(confirm("Hapus projek ini?")) { data.splice(i,1); save(); } }
+function done(i){ 
+    data[i].status = "Selesai"; 
+    save(); 
+}
+
+function hapus(i){ 
+    if(confirm("Hapus projek ini?")) { 
+        data.splice(i,1); 
+        save(); 
+    } 
+}
 
 window.onload = checkSession;
 </script>
