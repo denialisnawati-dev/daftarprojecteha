@@ -3,221 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manajemen Projek - Mobile Optimized</title>
-
+    <title>Kontrol Projek - Luxury Theme</title>
     <style>
-        /* BASE STYLE */
-        body { background:#121212; color:#D4AF37; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 10px; margin: 0; }
-        
+        body { background: #121212; color: #D4AF37; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 10px; }
+
         .container { 
-            max-width: 950px; 
-            margin: 10px auto; 
-            border: 2px solid #D4AF37; 
-            padding: 20px; 
-            border-radius: 15px; 
-            background: #1a1a1a; 
-            box-sizing: border-box; 
+            max-width: 900px; margin: 20px auto; background: #1a1a1a; 
+            border: 1px solid #D4AF37; border-radius: 12px; padding: 25px; 
             box-shadow: 0 0 15px rgba(212,175,55,0.1);
         }
-        
-        /* Judul Utama */
+
         h2.main-title { 
-            text-align: center; 
-            color: #fff; 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            margin-bottom: 25px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px;
+            color: #fff; text-align: left; font-size: 22px; margin-bottom: 30px; 
+            display: flex; align-items: center; gap: 10px; text-transform: uppercase;
         }
 
-        /* AUTH BOX */
-        .auth-box { 
-            max-width: 350px; 
-            margin: 80px auto; 
-            padding: 25px; 
-            border: 1px solid #D4AF37; 
-            border-radius: 15px; 
-            background: #1a1a1a; 
-            text-align: center; 
-            box-shadow: 0 0 15px rgba(212,175,55,0.1);
-        }
-        
-        /* FORM ELEMENTS GLOBAL */
-        button.btn-primary { 
-            width: 100%; 
-            padding: 12px; 
-            margin: 15px 0 8px 0; 
-            border-radius: 8px; 
-            border: none;
-            background: #D4AF37; 
-            color: #000; 
-            font-weight: bold; 
-            cursor: pointer; 
-            font-size: 16px;
-            transition: 0.3s;
-        }
-        button.btn-primary:hover { background: #fff; }
+        /* FORM INPUT RATA KIRI */
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; font-size: 14px; font-weight: bold; color: #D4AF37; margin-bottom: 8px; }
 
-        /* INPUT FIELD WRAPPER (Sesuai Foto) */
-        .field-group {
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
+        .input-box {
+            width: 100%; background: #222; border: 1px solid #D4AF37; 
+            border-radius: 10px; padding: 12px 15px; color: #fff; 
+            font-size: 14px; box-sizing: border-box; outline: none; text-align: left;
         }
 
-        .field-group label {
-            font-size: 14px;
-            color: #D4AF37;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .input-box::placeholder { color: #777; text-align: left; }
 
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
+        /* TOMBOL PUTIH GADING SESUAI FOTO */
+        .btn-submit {
+            width: 100%; padding: 14px; background: #fffde7; color: #000; 
+            font-weight: bold; border: none; border-radius: 10px; 
+            cursor: pointer; font-size: 14px; text-transform: uppercase; 
+            margin-top: 10px; transition: 0.3s; text-align: center;
         }
+        .btn-submit:hover { background: #D4AF37; }
 
-        .field-icon {
-            position: absolute;
-            left: 12px;
-            color: #888;
-            font-size: 16px;
-        }
-
-        /* Styling Input, Select, Date */
-        .custom-input, .custom-select {
-            width: 100%;
-            padding: 12px 12px 12px 40px; /* Padding kiri ekstra untuk ikon */
-            border-radius: 8px;
-            border: 1px solid #D4AF37;
-            background: #222;
-            color: #fff;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-
-        .custom-select {
-            appearance: none;
-            -webkit-appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%23D4AF37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-        }
-        
-        /* Warna Placeholder */
-        ::placeholder { color: #888; opacity: 1; }
-
-        /* SUMMARY BOXES (CLICKABLE) */
-        .summary-container { 
-            display: flex; 
-            justify-content: space-between; 
-            margin: 25px 0; 
-            gap: 10px; 
-        }
+        /* SUMMARY BOXES */
+        .summary-container { display: flex; gap: 15px; margin: 30px 0; }
         .summary-box { 
-            background: #222; 
-            padding: 15px 5px; 
-            border-radius: 10px; 
-            flex: 1; 
-            text-align: center; 
-            cursor: pointer; 
-            border: 2px solid transparent; 
-            transition: 0.3s;
+            flex: 1; background: #222; border: 1px solid #333; 
+            border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; 
         }
-        .summary-box.active-filter { border-color: #D4AF37; background: #333; }
-        .summary-box h2 { margin: 0; color: #D4AF37; font-size: 22px; }
-        .summary-box span { color: #fff; font-size: 11px; text-transform: uppercase; }
+        .summary-box.active { border-color: #D4AF37; }
+        .summary-box h2 { margin: 0; font-size: 28px; color: #fff; }
+        .summary-box span { color: #D4AF37; font-size: 12px; font-weight: bold; text-transform: uppercase; }
 
-        /* TABLE STYLES (DESKTOP) */
-        .table-responsive { width: 100%; margin-top: 25px; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th { color: #D4AF37; background: #222; padding: 12px; text-align: left; font-size: 13px; border-bottom: 2px solid #333; white-space: nowrap;}
-        td { padding: 12px; border-bottom: 1px solid #333; font-size: 13px; color: #fff !important; }
-        .status-done { color: #00c853 !important; font-weight: bold; }
-        .status-pending { color: #ffca28 !important; font-weight: bold; }
+        /* TABLE AREA */
+        .table-wrapper { width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; min-width: 800px; }
+        th { text-align: left; font-size: 12px; color: #D4AF37; padding: 10px; border-bottom: 1px solid #333; }
+        td { padding: 15px 10px; color: #fff; font-size: 13px; border-bottom: 1px solid #222; text-align: left; }
 
-        /* KHUSUS TAMPILAN HP (MOBILE OPTIMIZATION) */
+        /* MOBILE CARD VIEW */
         @media screen and (max-width: 768px) {
-            .container { padding: 15px; }
-            h2.main-title { font-size: 18px; }
-            
-            /* Sembunyikan Header Tabel di HP */
             thead { display: none; }
-            
-            /* Ubah baris tabel menjadi kartu */
-            tr { 
-                display: block; 
-                background: #222; 
-                margin-bottom: 15px; 
-                border-radius: 10px; 
-                padding: 10px; 
-                border: 1px solid #333;
-            }
-
-            td { 
-                display: flex; 
-                justify-content: space-between; 
-                padding: 8px 5px; 
-                border-bottom: 1px solid #333;
-                text-align: right;
-            }
-
-            /* Tambahkan label keterangan di sisi kiri */
-            td::before {
-                content: attr(data-label);
-                font-weight: bold;
-                color: #D4AF37;
-                text-align: left;
-                padding-right: 10px;
-            }
-
-            td:last-child { border-bottom: none; justify-content: center; gap: 20px; padding-top: 15px; }
+            tr { display: block; background: #222; margin-bottom: 15px; border-radius: 10px; padding: 10px; border: 1px solid #333; }
+            td { display: flex; justify-content: space-between; padding: 8px 5px; border-bottom: 1px solid #333; text-align: right; }
+            td::before { content: attr(data-label); color: #D4AF37; font-weight: bold; text-align: left; }
+            td:last-child { border: none; justify-content: center; gap: 20px; }
         }
     </style>
 </head>
 <body>
 
     <div id="authContent">
-        <div class="auth-box" id="loginForm">
-            <h2>Login</h2>
-            <div class="field-group">
-                <div class="input-wrapper">
-                    <span class="field-icon">👤</span>
-                    <input type="text" id="userLogin" placeholder="Username" class="custom-input">
-                </div>
-            </div>
-            <div class="field-group">
-                <div class="input-wrapper">
-                    <span class="field-icon">🔒</span>
-                    <input type="password" id="passLogin" placeholder="Password" class="custom-input">
-                </div>
-            </div>
-            <button onclick="login()" class="btn-primary">Masuk</button>
-            <p style="color:#fff; cursor:pointer; font-size:12px; margin-top:15px;" onclick="toggleAuth()">Belum punya akun? <b>Daftar</b></p>
-        </div>
-        <div class="auth-box" id="registerForm" style="display:none;">
-            <h2>Register</h2>
-            <div class="field-group">
-                <div class="input-wrapper">
-                    <span class="field-icon">👤</span>
-                    <input type="text" id="userReg" placeholder="Username Baru" class="custom-input">
-                </div>
-            </div>
-            <div class="field-group">
-                <div class="input-wrapper">
-                    <span class="field-icon">🔒</span>
-                    <input type="password" id="passReg" placeholder="Password Baru" class="custom-input">
-                </div>
-            </div>
-            <button onclick="register()" class="btn-primary">Daftar Sekarang</button>
-            <p style="color:#fff; cursor:pointer; font-size:12px; margin-top:15px;" onclick="toggleAuth()">Sudah punya akun? <b>Login</b></p>
+        <div class="container" style="max-width: 400px; margin-top: 100px; text-align: center;">
+            <h2 style="color:#fff">LOGIN</h2>
+            <input type="text" id="userLogin" placeholder="Username" class="input-box" style="margin-bottom:15px">
+            <input type="password" id="passLogin" placeholder="Password" class="input-box" style="margin-bottom:15px">
+            <button onclick="login()" class="btn-submit">MASUK</button>
         </div>
     </div>
 
@@ -226,81 +81,67 @@
             <h2 class="main-title">🛠️ KONTROL PROJEK</h2>
 
             <form onsubmit="addTask(event)">
-                <div class="field-group">
+                <div class="form-group">
                     <label>Nama Claim Project :</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="claim" required placeholder="Masukkan Nama Anda" class="custom-input">
-                    </div>
+                    <input type="text" id="claim" class="input-box" placeholder="Masukkan Nama Anda" required>
                 </div>
-                
-                <div class="field-group">
+
+                <div class="form-group">
                     <label>👤 Nama Klien :</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="klien" required placeholder="Masukkan Nama Klien..." class="custom-input">
-                    </div>
+                    <input type="text" id="klien" class="input-box" placeholder="Masukkan Nama Klien..." required>
                 </div>
 
-                <div class="field-group">
+                <div class="form-group">
                     <label>📋 Nama Tugas :</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="task" required placeholder="Contoh: Desain Interior Ruang Tamu" class="custom-input">
-                    </div>
+                    <input type="text" id="task" class="input-box" placeholder="Contoh: Desain Interior Ruang Tamu" required>
                 </div>
 
-                <div class="field-group">
+                <div class="form-group">
                     <label>🔢 Kode Projek :</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="kode" placeholder="Contoh: PRJ-2026-01" class="custom-input">
-                    </div>
+                    <input type="text" id="kode" class="input-box" placeholder="Contoh: PRJ-2026-01">
                 </div>
 
-                <div class="field-group">
+                <div class="form-group">
                     <label>📁 Pekerjaan :</label>
-                    <div class="input-wrapper">
-                        <select id="pekerjaan" class="custom-select">
-                            <option value="" disabled selected>Pilih Jenis Pekerjaan...</option>
-                            <option>3D (Architectural)</option>
-                            <option>2D</option>
-                            <option>RAB</option>
-                        </select>
-                    </div>
+                    <select id="pekerjaan" class="input-box">
+                        <option value="" disabled selected>Pilih Jenis Pekerjaan...</option>
+                        <option>3D (Architectural)</option>
+                        <option>2D</option>
+                        <option>RAB</option>
+                    </select>
                 </div>
 
-                <div class="field-group">
+                <div class="form-group">
                     <label>⚖️ Divisi Penanggung Jawab :</label>
-                    <div class="input-wrapper">
-                        <select id="divisi" class="custom-select">
-                            <option value="" disabled selected>Pilih Divisi...</option>
-                            <option>ESCARCH</option>
-                            <option>ELIT</option>
-                            <option>ETB</option>
-                        </select>
-                    </div>
+                    <select id="divisi" class="input-box">
+                        <option value="" disabled selected>Pilih Divisi...</option>
+                        <option>ESCARCH</option>
+                        <option>ELIT</option>
+                        <option>ETB</option>
+                    </select>
                 </div>
 
-                <div class="field-group">
+                <div class="form-group">
                     <label>📅 Deadline :</label>
-                    <div class="input-wrapper">
-                        <input type="date" id="deadline" required class="custom-input">
-                    </div>
+                    <input type="date" id="deadline" class="input-box" required>
                 </div>
 
-                <button type="submit" class="btn-primary">TAMBAHKAN KE DAFTAR</button>
+                <button type="submit" class="btn-submit">TAMBAHKAN KE DAFTAR</button>
             </form>
 
             <div class="summary-container">
-                <div class="summary-box active-filter" id="box-all" onclick="setFilter('all')">
-                    <h2 id="total">0</h2><span>Semua</span>
+                <div class="summary-box active" onclick="setFilter('all')" id="box-all">
+                    <h2 id="total">0</h2><span>SEMUA</span>
                 </div>
-                <div class="summary-box" id="box-pending" onclick="setFilter('Pending')">
-                    <h2 id="aktif">0</h2><span>Aktif</span>
+                <div class="summary-box" onclick="setFilter('Pending')" id="box-pending">
+                    <h2 id="aktif">0</h2><span>AKTIF</span>
                 </div>
-                <div class="summary-box" id="box-selesai" onclick="setFilter('Selesai')">
-                    <h2 id="selesai">0</h2><span>Selesai</span>
+                <div class="summary-box" onclick="setFilter('Selesai')" id="box-selesai">
+                    <h2 id="selesai">0</h2><span>SELESAI</span>
                 </div>
             </div>
 
-            <div class="table-responsive">
+            <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
@@ -311,42 +152,18 @@
                     <tbody id="tableBody"></tbody>
                 </table>
             </div>
-            
-            <p style="text-align: center; font-size: 10px; color: #444; margin-top: 25px;">Data tersimpan otomatis di browser ini.</p>
         </div>
     </div>
 
     <script>
-        let currentFilter = 'all';
         let data = JSON.parse(localStorage.getItem('projectData')) || [];
-
-        // --- AUTH LOGIC ---
-        function toggleAuth() {
-            const login = document.getElementById('loginForm');
-            const reg = document.getElementById('registerForm');
-            login.style.display = login.style.display === "none" ? "block" : "none";
-            reg.style.display = reg.style.display === "none" ? "block" : "none";
-        }
-
-        function register() {
-            const u = document.getElementById('userReg').value;
-            const p = document.getElementById('passReg').value;
-            if(!u || !p) return alert("Mohon isi semua data!");
-            let users = JSON.parse(localStorage.getItem('users')) || [];
-            if(users.find(user => user.username === u)) return alert("Username sudah terpakai!");
-            users.push({username: u, password: p});
-            localStorage.setItem('users', JSON.stringify(users));
-            alert("Registrasi Berhasil!"); toggleAuth();
-        }
+        let currentFilter = 'all';
 
         function login() {
-            const u = document.getElementById('userLogin').value;
-            const p = document.getElementById('passLogin').value;
-            let users = JSON.parse(localStorage.getItem('users')) || [];
-            if(users.find(user => user.username === u && user.password === p)) {
+            if(document.getElementById('userLogin').value !== "") {
                 sessionStorage.setItem('isLoggedIn', 'true');
                 checkSession();
-            } else { alert("Username atau Password salah!"); }
+            }
         }
 
         function checkSession() {
@@ -357,37 +174,28 @@
             }
         }
 
-        // --- PROJECT LOGIC ---
-        function setFilter(type) {
-            currentFilter = type;
-            document.querySelectorAll('.summary-box').forEach(b => b.classList.remove('active-filter'));
-            document.getElementById('box-' + (type === 'all' ? 'all' : type.toLowerCase())).classList.add('active-filter');
-            render();
-        }
-
         function addTask(e) {
             e.preventDefault();
-            const pekerjaan = document.getElementById("pekerjaan").value;
-            const divisi = document.getElementById("divisi").value;
-            
-            if(!pekerjaan || !divisi) {
-                alert("Mohon pilih Pekerjaan dan Divisi!");
-                return;
-            }
-
             data.push({
                 claim: document.getElementById("claim").value,
                 klien: document.getElementById("klien").value,
                 task: document.getElementById("task").value,
                 kode: document.getElementById("kode").value,
-                pekerjaan: pekerjaan,
-                divisi: divisi,
+                pekerjaan: document.getElementById("pekerjaan").value,
+                divisi: document.getElementById("divisi").value,
                 deadline: document.getElementById("deadline").value,
                 status: "Pending"
             });
             localStorage.setItem('projectData', JSON.stringify(data));
-            render();
             e.target.reset();
+            render();
+        }
+
+        function setFilter(f) {
+            currentFilter = f;
+            document.querySelectorAll('.summary-box').forEach(b => b.classList.remove('active'));
+            document.getElementById('box-' + (f === 'all' ? 'all' : f.toLowerCase())).classList.add('active');
+            render();
         }
 
         function render() {
@@ -397,7 +205,7 @@
 
             data.forEach((d, i) => {
                 if(d.status === "Pending") t_aktif++; else t_selesai++;
-                if (currentFilter === 'all' || d.status === currentFilter) {
+                if(currentFilter === 'all' || d.status === currentFilter) {
                     tbody.innerHTML += `
                         <tr>
                             <td data-label="Pekerja">${d.claim}</td>
@@ -406,22 +214,23 @@
                             <td data-label="Kode">${d.kode}</td>
                             <td data-label="Pekerjaan">${d.pekerjaan}</td>
                             <td data-label="Divisi">${d.divisi}</td>
-                            <td data-label="Status" class="${d.status === 'Selesai' ? 'status-done' : 'status-pending'}">${d.status}</td>
+                            <td data-label="Status" style="color:${d.status === 'Selesai' ? '#00c853' : '#ffca28'}">${d.status}</td>
                             <td data-label="Deadline">${d.deadline}</td>
                             <td data-label="Aksi">
-                                <button onclick="done(${i})" style="width:40px; padding: 5px; background: #D4AF37; color: #000; font-weight: bold; border-radius: 5px; cursor: pointer;">✔</button>
-                                <button onclick="hapus(${i})" style="width:40px; padding: 5px; background:#ff4444; border:none; color:white; border-radius: 5px; cursor: pointer;">×</button>
+                                <button onclick="markDone(${i})" style="cursor:pointer; background:#D4AF37; border:none; border-radius:4px; padding:2px 8px;">✔</button>
+                                <button onclick="hapus(${i})" style="cursor:pointer; background:#ff4444; color:white; border:none; border-radius:4px; padding:2px 8px;">×</button>
                             </td>
                         </tr>`;
                 }
             });
+
             document.getElementById("total").innerText = data.length;
             document.getElementById("aktif").innerText = t_aktif;
             document.getElementById("selesai").innerText = t_selesai;
         }
 
-        function done(i) { data[i].status = "Selesai"; localStorage.setItem('projectData', JSON.stringify(data)); render(); }
-        function hapus(i) { if(confirm("Hapus projek ini?")) { data.splice(i, 1); localStorage.setItem('projectData', JSON.stringify(data)); render(); } }
+        function markDone(i) { data[i].status = "Selesai"; localStorage.setItem('projectData', JSON.stringify(data)); render(); }
+        function hapus(i) { if(confirm("Hapus?")) { data.splice(i, 1); localStorage.setItem('projectData', JSON.stringify(data)); render(); } }
 
         window.onload = checkSession;
     </script>
