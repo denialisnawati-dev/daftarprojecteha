@@ -1,72 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manajemen Projek - Fixed Layout</title>
+
 <style>
-    /* CSS Tambahan untuk memastikan rata kiri */
+    body { background:#121212; color:#D4AF37; font-family:'Segoe UI', sans-serif; padding:20px; }
     
-    /* 1. Judul tetap di tengah */
-    h2 { 
-        text-align: center !important; 
-        width: 100%; 
-        display: block;
+    /* CONTAINER UTAMA - Memastikan semua di dalam garis kuning */
+    .container { 
+        max-width:1000px; 
+        margin:auto; 
+        border:2px solid #D4AF37; 
+        padding:25px; 
+        border-radius:15px; 
+        background:#1a1a1a; 
+        box-shadow:0 0 20px rgba(212,175,55,0.2); 
+        box-sizing: border-box;
     }
 
-    /* 2. Semua label, input, dan select dipaksa rata kiri */
-    label {
-        text-align: left !important;
-        display: block;
-        width: 100%;
+    /* JUDUL - TETAP DI TENGAH */
+    h2 { text-align:center !important; color:#fff; margin-bottom:20px; text-transform:uppercase; letter-spacing:2px; }
+    
+    /* FORM & INPUT - SEMUA RATA KIRI */
+    form { text-align: left !important; max-width: 700px; margin: 0 auto 30px auto; }
+    label { display: block; margin-top: 15px; font-weight: bold; font-size: 14px; text-align: left !important; }
+    
+    input, select { 
+        width:100%; 
+        padding:12px; 
+        margin:5px 0 10px 0; 
+        border-radius:8px; 
+        border:1px solid #D4AF37; 
+        background:#222; 
+        color:#fff; 
+        box-sizing: border-box; 
+        text-align: left !important; /* Teks yang diketik ke kiri */
     }
 
-    input, select {
-        text-align: left !important; /* Untuk teks yang diketik */
-        padding-left: 15px !important;
-    }
-
-    /* 3. Menangani teks placeholder (titik hijau di gambar Anda) agar ke kiri */
+    /* PLACEHOLDER (TITIK HIJAU) - PAKSA KE KIRI */
     input::placeholder {
         text-align: left !important;
+        color: #777;
     }
 
-    /* Khusus untuk dropdown/select agar teks pilihannya di kiri */
+    /* DROPDOWN - TEKS PILIHAN KE KIRI */
     select {
         text-align-last: left !important;
     }
 
-    /* Tombol tetap center secara teks agar rapi */
-    button[type="submit"] {
-        text-align: center !important;
+    /* TOMBOL - TETAP DI TENGAH AGAR RAPI */
+    button.btn-add { 
+        width: 100%;
+        background:#fffde7; 
+        color:#000; 
+        font-weight:bold; 
+        cursor:pointer; 
+        padding: 15px;
+        border: none;
+        margin-top: 10px;
+        text-transform: uppercase;
+        border-radius: 8px;
     }
-</style>
 
-<form onsubmit="addTask(event)">
-    <label>Nama Claim Project :</label>
-    <input type="text" id="claim" placeholder="Masukkan Nama Anda" required>
-    
-    <label>👤 Nama Klien :</label>
-    <input type="text" id="klien" placeholder="Masukkan Nama Klien..." required>
-    
-    <label>📋 Nama Tugas :</label>
-    <input type="text" id="task" placeholder="Contoh: Desain Interior Ruang Tamu" required>
-    
-    <label>🔢 Kode Projek :</label>
-    <input type="text" id="kode" placeholder="Contoh: PRJ-2026-01">
-    
-    <label>📁 Pekerjaan :</label>
-    <select id="pekerjaan">
-        <option value="" disabled selected>Pilih Jenis Pekerjaan...</option>
-        <option>3D (Architectural)</option>
-        <option>2D</option>
-        <option>RAB</option>
-    </select>
-    
-    <label>⚖️ Divisi Penanggung Jawab :</label>
-    <select id="divisi">
-        <option value="" disabled selected>Pilih Divisi...</option>
-        <option>ESCARCH</option>
-        <option>ELIT</option>
-        <option>ETB</option>
-    </select>
-    
-    <label>📅 Deadline :</label>
-    <input type="date" id="deadline" required>
-    
-    <button type="submit">TAMBAHKAN KE DAFTAR</button>
-</form>
+    /* SUMMARY BOXES - DI DALAM KOTAK */
+    .summary-container { display:flex; justify-content:space-around; margin:20px 0; gap: 15px; }
+    .summary-box { 
+        background:#222; padding:20px; border-radius:10px; width:100%; 
+        text-align:center; border: 1px solid #333;
+    }
+    .summary-box h2 { margin: 0; color: #fff; font-size: 24px; text-align: center !important; }
+    .summary-box span { color: #D4AF37; font-size: 12px; font-weight: bold; }
+
+    /* TABEL - TETAP DI DALAM GARIS KUNING */
+    .table-wrapper { width:100%; overflow-x:auto; margin-top:30px; border-top: 1px solid #333; padding-top: 20px; }
+    table { width:100%; border-collapse:collapse; min-width: 800px; }
+    th, td { padding:12px; border-bottom:1px solid #333; font-size:12px; text-align: left !important; }
+    th { color:#D4AF37; text-transform: uppercase; }
+    td { color: #ffffff !important; }
+    .status-pending { color:#ffca28 !important; font-weight:bold; }
+    .status-done { color:#00c853 !important; font-weight:bold; }
+
+    /* AUTH (Jika diperlukan) */
+    .auth-box { max-width: 400px; margin: 100px auto; padding: 30px; border: 1px solid #D4AF37; border-radius: 15px; background: #1a1a1a; text-align: center; }
+    #mainContent { display: none; }
+</style>
+</head>
+<body>
+
+<div id="authContent">
+    <div class="auth-box">
+        <h2>LOGIN</h2>
+        <input type="text" id="userLogin" placeholder="Username">
+        <input type="password" id="passLogin" placeholder="Password">
+        <button class="btn-add" onclick="login()">MASUK</button>
+    </div>
+</div>
+
+<div id="mainContent">
+    <div class="container">
+        <h2>🛠️ Kontrol Projek</h2>
+
+        <form onsubmit="addTask(event)">
+            <label>Nama Claim Project :</label>
+            <input type="text" id="claim" placeholder="Masukkan Nama Anda" required>
+            
+            <label>👤 Nama Klien :</label>
+            <input type="text" id="klien" placeholder="Masukkan Nama Klien..." required>
+            
+            <label>📋 Nama Tugas :</label>
+            <input type="text" id="task" placeholder="Contoh: Desain Interior Ruang Tamu" required>
+            
+            <label>🔢 Kode Projek :</label>
+            <input type="text" id="kode" placeholder="Contoh: PRJ-2026-01">
+            
+            <label>📁 Pekerjaan :</label>
+            <select id="pekerjaan">
+                <option value="" disabled selected>Pilih Jenis Pekerjaan...</option>
+                <option>3D (Architectural)</option>
+                <option>2D</option>
+                <option>RAB</option>
+            </select>
+            
+            <label>⚖️ Divisi :</label>
+            <select id="divisi">
+                <option value="" disabled selected>Pilih Divisi...</option>
+                <option>ESCARCH</option>
+                <option>ELIT</option>
+                <option>ETB</option>
+            </select>
+            
+            <label>📅 Deadline :</label>
+            <input type="date" id="deadline" required>
+            
+            <button type="submit" class="btn-add">TAMBAHKAN KE DAFTAR</button>
+        </form>
+
+        <div class="summary-container">
+            <div class="summary-box">
+                <h2 id="total">0</h2><span>SEMUA</span>
+            </div>
+            <div class="summary-box">
+                <h2 id="aktif">0</h2><span>AKTIF</span>
+            </div>
+            <div class="summary-box">
+                <h2 id="selesai">0</h2><span>SELESAI</span>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pekerja</th><th>Klien</th><th>Tugas</th><th>Kode</th>
+                        <th>Pekerjaan</th><th>Divisi</th><th>Status</th><th>Deadline</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+let data = JSON.parse(localStorage.getItem('projectData')) || [];
+
+function login() {
+    sessionStorage.setItem('isLoggedIn', 'true');
+    checkSession();
+}
+
+function checkSession() {
+    if(sessionStorage.getItem('isLoggedIn') === 'true') {
+        document.getElementById('authContent').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        render(); 
+    }
+}
+
+function addTask(e){
+    e.preventDefault();
+    data.push({
+        claim: document.getElementById("claim").value,
+        klien: document.getElementById("klien").value,
+        task: document.getElementById("task").value,
+        kode: document.getElementById("kode").value,
+        pekerjaan: document.getElementById("pekerjaan").value,
+        divisi: document.getElementById("divisi").value,
+        deadline: document.getElementById("deadline").value,
+        status: "Pending"
+    });
+    localStorage.setItem('projectData', JSON.stringify(data));
+    e.target.reset();
+    render();
+}
+
+function render(){
+    let tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+    let aktif = 0, selesai = 0;
+    data.forEach((d) => {
+        if(d.status === "Pending") aktif++; else selesai++;
+        tbody.innerHTML += `
+        <tr>
+            <td>${d.claim}</td><td>${d.klien}</td><td>${d.task}</td><td>${d.kode}</td>
+            <td>${d.pekerjaan}</td><td>${d.divisi}</td>
+            <td class="${d.status=='Selesai'?'status-done':'status-pending'}">${d.status}</td>
+            <td>${d.deadline}</td>
+        </tr>`;
+    });
+    document.getElementById("total").innerText = data.length;
+    document.getElementById("aktif").innerText = aktif;
+    document.getElementById("selesai").innerText = selesai;
+}
+
+window.onload = checkSession;
+</script>
+</body>
+</html>
