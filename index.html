@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kontrol Projek - Final Fix</title>
+<title>Manajemen Projek - Perbaikan Total</title>
 
 <style>
     body { background:#121212; color:#D4AF37; font-family:'Segoe UI', sans-serif; padding:20px; }
     .container { max-width:950px; margin:auto; border:2px solid #D4AF37; padding:25px; border-radius:15px; background:#1a1a1a; box-shadow:0 0 20px rgba(212,175,55,0.2); }
     
+    /* JUDUL DI TENGAH */
     h2 { text-align:center !important; color:#fff; margin-bottom:20px; text-transform:uppercase; letter-spacing:2px; }
     
-    /* FORM STYLES - TEKS RATA KIRI */
+    /* FORM & INPUT RATA KIRI */
     form { text-align: left !important; }
     label { display: block; margin-top: 15px; font-weight: bold; font-size: 13px; text-align: left !important; }
     input, select { 
@@ -26,20 +27,20 @@
         padding: 15px; border: none; margin-top: 10px; text-transform: uppercase; border-radius: 8px; 
     }
 
-    /* SUMMARY BOXES (CLICKABLE/DAPAT DIPENCET) */
+    /* SUMMARY BOXES (BISA DIKLIK) */
     .summary-container { display:flex; justify-content:space-around; margin:30px 0; gap: 15px; }
     .summary-box { 
         background:#222; padding:20px; border-radius:10px; width:100%; 
         text-align:center; border: 2px solid transparent; cursor: pointer !important; transition: 0.3s;
     }
     .summary-box:hover { background: #333; border-color: #D4AF37; }
-    .summary-box.active-filter { border-color: #D4AF37; background: #2a2a2a; }
+    .summary-box.active-filter { border-color: #D4AF37 !important; background: #2a2a2a; }
     .summary-box h2 { margin: 0; color: #D4AF37; font-size: 28px; pointer-events: none; }
     .summary-box span { color: #fff; font-size: 14px; pointer-events: none; }
 
-    /* TABLE STYLES */
+    /* TABEL & AKSI */
     .table-wrapper { width:100%; overflow-x:auto; margin-top:20px; }
-    table { width:100%; border-collapse:collapse; min-width: 900px; }
+    table { width:100%; border-collapse:collapse; min-width: 1000px; }
     th, td { padding:12px; border-bottom:1px solid #333; font-size:12px; text-align: left !important; }
     th { color:#D4AF37; text-transform: uppercase; }
     td { color: #ffffff !important; }
@@ -47,13 +48,13 @@
     .status-pending { color:#ffca28 !important; font-weight:bold; }
     .status-done { color:#00c853 !important; font-weight:bold; }
 
-    /* AUTH SECTION */
+    /* TOMBOL AKSI */
+    .btn-done { background: #00c853; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; font-weight: bold; }
+    .btn-delete { background: #ff4444; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; font-weight: bold; margin-left: 5px; }
+
+    /* AUTH */
     .auth-box { max-width: 400px; margin: 100px auto; padding: 30px; border: 1px solid #D4AF37; border-radius: 15px; background: #1a1a1a; text-align: center; }
     #mainContent { display: none; }
-
-    /* BUTTON ACTION STYLES */
-    .btn-done { background: #D4AF37; border: none; padding: 5px 8px; cursor: pointer; border-radius: 4px; margin-right: 5px; }
-    .btn-delete { background: #ff4444; border: none; padding: 5px 8px; color: white; cursor: pointer; border-radius: 4px; }
 </style>
 </head>
 <body>
@@ -71,7 +72,7 @@
     <div class="container">
         <h2>🛠️ Kontrol Projek</h2>
 
-        <form onsubmit="addTask(event)">
+        <form id="projectForm" onsubmit="addTask(event)">
             <label>Nama Claim Project :</label>
             <input type="text" id="claim" placeholder="Masukkan Nama Anda" required>
             <label>👤 Nama Klien :</label>
@@ -81,14 +82,14 @@
             <label>🔢 Kode Projek :</label>
             <input type="text" id="kode" placeholder="Contoh: PRJ-2026-01">
             <label>📁 Pekerjaan :</label>
-            <select id="pekerjaan">
+            <select id="pekerjaan" required>
                 <option value="" disabled selected>Pilih Jenis Pekerjaan...</option>
                 <option>3D (Architectural)</option>
                 <option>2D</option>
                 <option>RAB</option>
             </select>
             <label>⚖️ Divisi :</label>
-            <select id="divisi">
+            <select id="divisi" required>
                 <option value="" disabled selected>Pilih Divisi...</option>
                 <option>ESCARCH</option>
                 <option>ELIT</option>
@@ -142,18 +143,23 @@ function checkSession() {
     }
 }
 
-// FUNGSI UNTUK FILTER (SEMUA/AKTIF/SELESAI)
+// FUNGSI FILTER YANG SUDAH DIPERBAIKI
 function setFilter(f) {
     currentFilter = f;
-    document.getElementById('box-all').classList.toggle('active-filter', f === 'all');
-    document.getElementById('box-pending').classList.toggle('active-filter', f === 'Pending');
-    document.getElementById('box-selesai').classList.toggle('active-filter', f === 'Selesai');
+    document.getElementById('box-all').classList.remove('active-filter');
+    document.getElementById('box-pending').classList.remove('active-filter');
+    document.getElementById('box-selesai').classList.remove('active-filter');
+    
+    if(f === 'all') document.getElementById('box-all').classList.add('active-filter');
+    else if(f === 'Pending') document.getElementById('box-pending').classList.add('active-filter');
+    else if(f === 'Selesai') document.getElementById('box-selesai').classList.add('active-filter');
+    
     render();
 }
 
 function addTask(e){
     e.preventDefault();
-    data.push({
+    const newTask = {
         claim: document.getElementById("claim").value,
         klien: document.getElementById("klien").value,
         task: document.getElementById("task").value,
@@ -162,7 +168,8 @@ function addTask(e){
         divisi: document.getElementById("divisi").value,
         deadline: document.getElementById("deadline").value,
         status: "Pending"
-    });
+    };
+    data.push(newTask);
     save();
     e.target.reset();
 }
@@ -172,6 +179,7 @@ function save() {
     render();
 }
 
+// RENDER TABEL DENGAN KOLOM AKSI
 function render(){
     let tbody = document.getElementById("tableBody");
     tbody.innerHTML = "";
@@ -180,7 +188,6 @@ function render(){
     data.forEach((d, i) => {
         if(d.status === "Pending") t_aktif++; else t_selesai++;
         
-        // Logika filter status
         if (currentFilter === 'all' || d.status === currentFilter) {
             tbody.innerHTML += `
             <tr>
@@ -189,27 +196,28 @@ function render(){
                 <td class="${d.status=='Selesai'?'status-done':'status-pending'}">${d.status}</td>
                 <td>${d.deadline}</td>
                 <td>
-                    <button class="btn-done" onclick="done(${i})" title="Selesai">✔</button>
-                    <button class="btn-delete" onclick="hapus(${i})" title="Hapus">×</button>
+                    ${d.status === 'Pending' ? `<button class="btn-done" onclick="markDone(${i})">✔</button>` : ''}
+                    <button class="btn-delete" onclick="deleteTask(${i})">❌</button>
                 </td>
             </tr>`;
         }
     });
+    
     document.getElementById("total").innerText = t_semua;
     document.getElementById("aktif").innerText = t_aktif;
     document.getElementById("selesai").innerText = t_selesai;
 }
 
-function done(i){ 
-    data[i].status = "Selesai"; 
-    save(); 
+function markDone(i){
+    data[i].status = "Selesai";
+    save();
 }
 
-function hapus(i){ 
-    if(confirm("Hapus projek ini?")) { 
-        data.splice(i,1); 
-        save(); 
-    } 
+function deleteTask(i){
+    if(confirm("Hapus data ini?")) {
+        data.splice(i, 1);
+        save();
+    }
 }
 
 window.onload = checkSession;
