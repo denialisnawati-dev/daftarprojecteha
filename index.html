@@ -3,29 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manajemen Projek - Fixed Layout</title>
+<title>Manajemen Projek - Versi Final</title>
 
 <style>
+    /* KEMBALI KE TAMPILAN AWAL ANDA */
     body { background:#121212; color:#D4AF37; font-family:'Segoe UI', sans-serif; padding:20px; }
     
-    /* CONTAINER UTAMA - Memastikan semua di dalam garis kuning */
     .container { 
-        max-width:1000px; 
+        max-width:950px; 
         margin:auto; 
         border:2px solid #D4AF37; 
         padding:25px; 
         border-radius:15px; 
         background:#1a1a1a; 
         box-shadow:0 0 20px rgba(212,175,55,0.2); 
-        box-sizing: border-box;
     }
 
-    /* JUDUL - TETAP DI TENGAH */
+    /* JUDUL - RATA TENGAH */
     h2 { text-align:center !important; color:#fff; margin-bottom:20px; text-transform:uppercase; letter-spacing:2px; }
     
     /* FORM & INPUT - SEMUA RATA KIRI */
-    form { text-align: left !important; max-width: 700px; margin: 0 auto 30px auto; }
-    label { display: block; margin-top: 15px; font-weight: bold; font-size: 14px; text-align: left !important; }
+    form { text-align: left !important; }
+    label { display: block; margin-top: 15px; font-weight: bold; font-size: 13px; text-align: left !important; }
     
     input, select { 
         width:100%; 
@@ -36,24 +35,24 @@
         background:#222; 
         color:#fff; 
         box-sizing: border-box; 
-        text-align: left !important; /* Teks yang diketik ke kiri */
+        text-align: left !important; /* Memastikan ketikan di kiri */
     }
 
-    /* PLACEHOLDER (TITIK HIJAU) - PAKSA KE KIRI */
+    /* PLACEHOLDER (TEKS PETUNJUK) - RATA KIRI */
     input::placeholder {
         text-align: left !important;
         color: #777;
     }
 
-    /* DROPDOWN - TEKS PILIHAN KE KIRI */
+    /* DROPDOWN - RATA KIRI */
     select {
         text-align-last: left !important;
     }
 
-    /* TOMBOL - TETAP DI TENGAH AGAR RAPI */
+    /* TOMBOL TAMBAH - TEMA AWAL */
     button.btn-add { 
         width: 100%;
-        background:#fffde7; 
+        background:#D4AF37; 
         color:#000; 
         font-weight:bold; 
         cursor:pointer; 
@@ -62,27 +61,30 @@
         margin-top: 10px;
         text-transform: uppercase;
         border-radius: 8px;
+        transition: 0.3s;
     }
+    button.btn-add:hover { background: #fffde7; }
 
-    /* SUMMARY BOXES - DI DALAM KOTAK */
-    .summary-container { display:flex; justify-content:space-around; margin:20px 0; gap: 15px; }
+    /* SUMMARY BOXES */
+    .summary-container { display:flex; justify-content:space-around; margin:30px 0; gap: 15px; }
     .summary-box { 
         background:#222; padding:20px; border-radius:10px; width:100%; 
         text-align:center; border: 1px solid #333;
     }
-    .summary-box h2 { margin: 0; color: #fff; font-size: 24px; text-align: center !important; }
-    .summary-box span { color: #D4AF37; font-size: 12px; font-weight: bold; }
+    .summary-box h2 { margin: 0; color: #D4AF37; font-size: 28px; text-align: center !important; }
+    .summary-box span { color: #fff; font-size: 14px; }
 
-    /* TABEL - TETAP DI DALAM GARIS KUNING */
-    .table-wrapper { width:100%; overflow-x:auto; margin-top:30px; border-top: 1px solid #333; padding-top: 20px; }
+    /* TABEL DATA */
+    .table-wrapper { width:100%; overflow-x:auto; margin-top:20px; }
     table { width:100%; border-collapse:collapse; min-width: 800px; }
     th, td { padding:12px; border-bottom:1px solid #333; font-size:12px; text-align: left !important; }
-    th { color:#D4AF37; text-transform: uppercase; }
+    th { color:#D4AF37; }
     td { color: #ffffff !important; }
+    
     .status-pending { color:#ffca28 !important; font-weight:bold; }
     .status-done { color:#00c853 !important; font-weight:bold; }
 
-    /* AUTH (Jika diperlukan) */
+    /* AUTH SECTION */
     .auth-box { max-width: 400px; margin: 100px auto; padding: 30px; border: 1px solid #D4AF37; border-radius: 15px; background: #1a1a1a; text-align: center; }
     #mainContent { display: none; }
 </style>
@@ -123,7 +125,7 @@
                 <option>RAB</option>
             </select>
             
-            <label>⚖️ Divisi :</label>
+            <label>⚖️ Divisi Penanggung Jawab :</label>
             <select id="divisi">
                 <option value="" disabled selected>Pilih Divisi...</option>
                 <option>ESCARCH</option>
@@ -139,13 +141,13 @@
 
         <div class="summary-container">
             <div class="summary-box">
-                <h2 id="total">0</h2><span>SEMUA</span>
+                <h2 id="total">0</h2><span>Semua</span>
             </div>
             <div class="summary-box">
-                <h2 id="aktif">0</h2><span>AKTIF</span>
+                <h2 id="aktif">0</h2><span>Aktif</span>
             </div>
             <div class="summary-box">
-                <h2 id="selesai">0</h2><span>SELESAI</span>
+                <h2 id="selesai">0</h2><span>Selesai</span>
             </div>
         </div>
 
