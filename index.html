@@ -1,170 +1,328 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manajemen Projek</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Projek - Responsive</title>
 
-<style>
-body { background:#121212; color:#D4AF37; font-family:'Segoe UI', sans-serif; padding:20px; }
-.container { max-width:900px; margin:auto; border:2px solid #D4AF37; padding:25px; border-radius:15px; background:#1a1a1a; box-shadow:0 0 20px rgba(212,175,55,0.2); }
-h2 { text-align:center; color:#fff; margin-bottom:20px; text-transform:uppercase; letter-spacing:2px; }
-label { font-size:13px; color:#D4AF37; display:block; margin-top:10px; }
-input, select, button { width:100%; padding:12px; margin:5px 0 15px 0; border-radius:8px; border:1px solid #D4AF37; background:#222; color:#fff; }
-button { background:#D4AF37; color:#000; font-weight:bold; cursor:pointer; }
-table { width:100%; border-collapse:collapse; margin-top:30px; }
-th, td { padding:12px; border-bottom:1px solid #333; font-size:13px; }
-th { color:#D4AF37; }
-.status-done { color:#00c853; font-weight:bold; }
-.status-pending { color:#ffca28; font-weight:bold; }
-.summary-container { display:flex; justify-content:space-around; margin:20px 0; }
-.summary-box { background:#222; padding:10px; border-radius:10px; width:100px; text-align:center; }
-</style>
+    <style>
+        /* BASE STYLE */
+        body { 
+            background:#121212; 
+            color:#D4AF37; 
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            padding: 10px; 
+            margin: 0;
+        }
 
+        .container { 
+            max-width: 950px; 
+            margin: 20px auto; 
+            border: 2px solid #D4AF37; 
+            padding: 20px; 
+            border-radius: 15px; 
+            background: #1a1a1a; 
+            box-shadow: 0 0 20px rgba(212,175,55,0.1);
+            box-sizing: border-box;
+        }
+
+        h2 { text-align: center; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; }
+
+        /* AUTH BOX */
+        .auth-box { 
+            max-width: 350px; 
+            margin: 80px auto; 
+            padding: 25px; 
+            border: 1px solid #D4AF37; 
+            border-radius: 15px; 
+            background: #1a1a1a; 
+            text-align: center; 
+        }
+
+        /* FORM ELEMENTS */
+        label { font-size: 13px; display: block; margin-top: 10px; color: #D4AF37; }
+        input, select, button { 
+            width: 100%; 
+            padding: 12px; 
+            margin: 8px 0; 
+            border-radius: 8px; 
+            border: 1px solid #D4AF37; 
+            background: #222; 
+            color: #fff; 
+            box-sizing: border-box; 
+            font-size: 14px;
+        }
+        button { background: #D4AF37; color: #000; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; }
+        button:hover { background: #fff; }
+
+        /* SUMMARY BOXES (CLICKABLE) */
+        .summary-container { 
+            display: flex; 
+            justify-content: space-between; 
+            margin: 25px 0; 
+            gap: 10px; 
+        }
+        .summary-box { 
+            background: #222; 
+            padding: 15px; 
+            border-radius: 10px; 
+            flex: 1; 
+            text-align: center; 
+            cursor: pointer !important; 
+            border: 2px solid transparent; 
+            transition: 0.3s;
+        }
+        .summary-box:hover { background: #2a2a2a; border-color: #D4AF37; }
+        .summary-box.active-filter { border: 2px solid #D4AF37; background: #333; }
+        .summary-box h2 { margin: 0; color: #D4AF37; font-size: 22px; pointer-events: none; }
+        .summary-box span { color: #fff; font-size: 12px; pointer-events: none; text-transform: uppercase; }
+
+        /* RESPONSIVE TABLE */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto; /* Memungkinkan scroll horizontal di HP */
+            -webkit-overflow-scrolling: touch;
+            margin-top: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+
+        table { width: 100%; border-collapse: collapse; min-width: 700px; } /* Min-width menjaga tabel tidak gepeng */
+        th, td { padding: 12px; border-bottom: 1px solid #333; text-align: left; font-size: 13px; }
+        th { color: #D4AF37; background: #222; position: sticky; top: 0; }
+        
+        /* DATA COLORS */
+        #tableBody td { color: #ffffff !important; } 
+        #tableBody td.status-done { color: #00c853 !important; font-weight: bold; }
+        #tableBody td.status-pending { color: #ffca28 !important; font-weight: bold; }
+
+        .btn-action { width: 32px; height: 32px; padding: 0; margin: 2px; display: inline-flex; align-items: center; justify-content: center; }
+
+        /* MOBILE ADJUSTMENTS */
+        @media screen and (max-width: 600px) {
+            body { padding: 5px; }
+            .container { padding: 15px; border-radius: 10px; }
+            h2 { font-size: 18px; }
+            .summary-box { padding: 10px 5px; }
+            .summary-box h2 { font-size: 18px; }
+            .summary-box span { font-size: 10px; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-<h2>🛠️ Kontrol Projek</h2>
+    <div id="authContent">
+        <div class="auth-box" id="loginForm">
+            <h2>Login</h2>
+            <input type="text" id="userLogin" placeholder="Username">
+            <input type="password" id="passLogin" placeholder="Password">
+            <button onclick="login()">Masuk</button>
+            <p style="color:#fff; cursor:pointer; font-size:12px; margin-top:15px;" onclick="toggleAuth()">Belum punya akun? <b>Daftar</b></p>
+        </div>
 
-<!-- FORM (TIDAK TERHUBUNG DATABASE) -->
-<form onsubmit="addTask(event)">
-    <label>Nama Claim Project :</label>
-    <input type="text" id="claim" required>
-
-    <label>Nama Klien:</label>
-    <input type="text" id="klien" required>
-
-    <label>Nama Tugas:</label>
-    <input type="text" id="task" required>
-
-    <label>Kode Projek:</label>
-    <input type="text" id="kode">
-
-    <label>Pekerjaan:</label>
-    <select id="pekerjaan">
-        <option>3D (Architectural)</option>
-        <option>2D</option>
-        <option>RAB</option>
-    </select>
-
-    <label>Divisi:</label>
-    <select id="divisi">
-        <option>ESCARCH</option>
-        <option>ELIT</option>
-        <option>ETB</option>
-    </select>
-
-    <label>Deadline:</label>
-    <input type="date" id="deadline" required>
-
-    <button type="submit">Tambah Projek</button>
-</form>
-
-<!-- SUMMARY -->
-<div class="summary-container">
-    <div class="summary-box">
-        <h2 id="total">0</h2>
-        <span>Semua</span>
+        <div class="auth-box" id="registerForm" style="display:none;">
+            <h2>Register</h2>
+            <input type="text" id="userReg" placeholder="Username Baru">
+            <input type="password" id="passReg" placeholder="Password Baru">
+            <button onclick="register()">Daftar Sekarang</button>
+            <p style="color:#fff; cursor:pointer; font-size:12px; margin-top:15px;" onclick="toggleAuth()">Sudah punya akun? <b>Login</b></p>
+        </div>
     </div>
-    <div class="summary-box">
-        <h2 id="aktif">0</h2>
-        <span>Aktif</span>
+
+    <div id="mainContent" style="display: none;">
+        <div class="container">
+            <h2>🛠️ Kontrol Projek</h2>
+
+            <form onsubmit="addTask(event)">
+                <label>Pekerja :</label>
+                <input type="text" id="claim" required placeholder="Nama Pekerja">
+                
+                <label>Nama Klien :</label>
+                <input type="text" id="klien" required placeholder="Nama Klien">
+
+                <label>Nama Tugas :</label>
+                <input type="text" id="task" required placeholder="Contoh: Desain Interior">
+
+                <label>Kode Projek :</label>
+                <input type="text" id="kode" placeholder="ID Projek">
+
+                <label>Pekerjaan :</label>
+                <select id="pekerjaan">
+                    <option>3D (Architectural)</option>
+                    <option>2D</option>
+                    <option>RAB</option>
+                </select>
+
+                <label>Divisi :</label>
+                <select id="divisi">
+                    <option>ESCARCH</option>
+                    <option>ELIT</option>
+                    <option>ETB</option>
+                </select>
+
+                <label>Deadline :</label>
+                <input type="date" id="deadline" required>
+
+                <button type="submit" style="margin-top: 20px;">TAMBAH PROJEK</button>
+            </form>
+
+            <div class="summary-container">
+                <div class="summary-box active-filter" id="box-all" onclick="setFilter('all')">
+                    <h2 id="total">0</h2><span>Semua</span>
+                </div>
+                <div class="summary-box" id="box-pending" onclick="setFilter('Pending')">
+                    <h2 id="aktif">0</h2><span>Aktif</span>
+                </div>
+                <div class="summary-box" id="box-selesai" onclick="setFilter('Selesai')">
+                    <h2 id="selesai">0</h2><span>Selesai</span>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pekerja</th>
+                            <th>Klien</th>
+                            <th>Tugas</th>
+                            <th>Kode</th>
+                            <th>Pekerjaan</th>
+                            <th>Divisi</th>
+                            <th>Status</th>
+                            <th>Deadline</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        </tbody>
+                </table>
+            </div>
+            
+            <p style="text-align: center; font-size: 10px; color: #444; margin-top: 20px;">Data tersimpan otomatis di browser ini.</p>
+        </div>
     </div>
-    <div class="summary-box">
-        <h2 id="selesai">0</h2>
-        <span>Selesai</span>
-    </div>
-</div>
 
-<!-- TABEL -->
-<table>
-<thead>
-<tr>
-<th>Pekerja</th>
-<th>Klien</th>
-<th>Tugas</th>
-<th>Kode</th>
-<th>Pekerjaan</th>
-<th>Divisi</th>
-<th>Status</th>
-<th>Deadline</th>
-<th>Aksi</th>
-</tr>
-</thead>
+    <script>
+        let currentFilter = 'all';
+        let data = JSON.parse(localStorage.getItem('projectData')) || [];
 
-<tbody id="tableBody">
-</tbody>
+        // --- AUTH LOGIC ---
+        function toggleAuth() {
+            const login = document.getElementById('loginForm');
+            const reg = document.getElementById('registerForm');
+            login.style.display = login.style.display === "none" ? "block" : "none";
+            reg.style.display = reg.style.display === "none" ? "block" : "none";
+        }
 
-</table>
+        function register() {
+            const u = document.getElementById('userReg').value;
+            const p = document.getElementById('passReg').value;
+            if(!u || !p) return alert("Mohon isi semua data!");
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            if(users.find(user => user.username === u)) return alert("Username sudah terpakai!");
+            users.push({username: u, password: p});
+            localStorage.setItem('users', JSON.stringify(users));
+            alert("Registrasi Berhasil!");
+            toggleAuth();
+        }
 
-</div>
+        function login() {
+            const u = document.getElementById('userLogin').value;
+            const p = document.getElementById('passLogin').value;
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            if(users.find(user => user.username === u && user.password === p)) {
+                sessionStorage.setItem('isLoggedIn', 'true');
+                checkSession();
+            } else {
+                alert("Username atau Password salah!");
+            }
+        }
 
-<script>
-let data = [];
+        function checkSession() {
+            if(sessionStorage.getItem('isLoggedIn') === 'true') {
+                document.getElementById('authContent').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                render();
+            }
+        }
 
-function addTask(e){
-    e.preventDefault();
+        // --- PROJECT LOGIC ---
+        function setFilter(type) {
+            currentFilter = type;
+            document.querySelectorAll('.summary-box').forEach(b => b.classList.remove('active-filter'));
+            document.getElementById('box-' + (type === 'all' ? 'all' : type.toLowerCase())).classList.add('active-filter');
+            render();
+        }
 
-    let task = {
-        claim: document.getElementById("claim").value,
-        klien: document.getElementById("klien").value,
-        task: document.getElementById("task").value,
-        kode: document.getElementById("kode").value,
-        pekerjaan: document.getElementById("pekerjaan").value,
-        divisi: document.getElementById("divisi").value,
-        deadline: document.getElementById("deadline").value,
-        status: "Pending"
-    };
+        function addTask(e) {
+            e.preventDefault();
+            const newTask = {
+                claim: document.getElementById("claim").value,
+                klien: document.getElementById("klien").value,
+                task: document.getElementById("task").value,
+                kode: document.getElementById("kode").value,
+                pekerjaan: document.getElementById("pekerjaan").value,
+                divisi: document.getElementById("divisi").value,
+                deadline: document.getElementById("deadline").value,
+                status: "Pending"
+            };
+            data.push(newTask);
+            saveAndRender();
+            e.target.reset();
+        }
 
-    data.push(task);
-    render();
-}
+        function saveAndRender() {
+            localStorage.setItem('projectData', JSON.stringify(data));
+            render();
+        }
 
-function render(){
-    let tbody = document.getElementById("tableBody");
-    tbody.innerHTML = "";
+        function render() {
+            const tbody = document.getElementById("tableBody");
+            tbody.innerHTML = "";
+            let t_aktif = 0, t_selesai = 0;
 
-    let aktif = 0;
-    let selesai = 0;
+            data.forEach((d, i) => {
+                if(d.status === "Pending") t_aktif++; else t_selesai++;
 
-    data.forEach((d,i)=>{
-        if(d.status=="Pending") aktif++;
-        else selesai++;
+                if (currentFilter === 'all' || d.status === currentFilter) {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${d.claim}</td>
+                            <td>${d.klien}</td>
+                            <td>${d.task}</td>
+                            <td>${d.kode}</td>
+                            <td>${d.pekerjaan}</td>
+                            <td>${d.divisi}</td>
+                            <td class="${d.status === 'Selesai' ? 'status-done' : 'status-pending'}">${d.status}</td>
+                            <td>${d.deadline}</td>
+                            <td>
+                                <button class="btn-action" onclick="done(${i})">✔</button>
+                                <button class="btn-action" style="background:#ff4444; color:white;" onclick="hapus(${i})">×</button>
+                            </td>
+                        </tr>
+                    `;
+                }
+            });
 
-        tbody.innerHTML += `
-        <tr>
-            <td>${d.claim}</td>
-            <td>${d.klien}</td>
-            <td>${d.task}</td>
-            <td>${d.kode}</td>
-            <td>${d.pekerjaan}</td>
-            <td>${d.divisi}</td>
-            <td class="${d.status=='Selesai'?'status-done':'status-pending'}">${d.status}</td>
-            <td>${d.deadline}</td>
-            <td>
-                <button onclick="done(${i})">✔</button>
-                <button onclick="hapus(${i})">×</button>
-            </td>
-        </tr>
-        `;
-    });
+            document.getElementById("total").innerText = data.length;
+            document.getElementById("aktif").innerText = t_aktif;
+            document.getElementById("selesai").innerText = t_selesai;
+        }
 
-    document.getElementById("total").innerText = data.length;
-    document.getElementById("aktif").innerText = aktif;
-    document.getElementById("selesai").innerText = selesai;
-}
+        function done(i) {
+            data[i].status = "Selesai";
+            saveAndRender();
+        }
 
-function done(i){
-    data[i].status = "Selesai";
-    render();
-}
+        function hapus(i) {
+            if(confirm("Hapus projek ini?")) {
+                data.splice(i, 1);
+                saveAndRender();
+            }
+        }
 
-function hapus(i){
-    data.splice(i,1);
-    render();
-}
-</script>
-
+        // Run session check on load
+        window.onload = checkSession;
+    </script>
 </body>
 </html>
