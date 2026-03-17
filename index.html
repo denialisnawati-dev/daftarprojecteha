@@ -3,53 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kontrol Projek - Fixed Layout</title>
+    <title>Kontrol Projek - Center Layout</title>
     <style>
+        /* TAMPILAN DASAR */
         body { 
             background: #121212; 
             color: #D4AF37; 
             font-family: 'Segoe UI', Arial, sans-serif; 
             margin: 0; 
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Menempatkan semua konten ke tengah secara horizontal */
         }
 
-        /* BOX KUNING UTAMA - Semua konten ada di dalam sini */
+        /* CONTAINER UTAMA - DITEMPATKAN DI TENGAH */
         .container { 
-            max-width: 1000px; 
-            margin: 0 auto; 
+            width: 100%;
+            max-width: 600px; /* Ukuran form lebih ramping agar bagus di tengah */
             background: #1a1a1a; 
-            border: 2px solid #D4AF37; /* Garis kotak kuning */
-            border-radius: 15px; 
+            border: 1px solid #D4AF37; 
+            border-radius: 12px; 
             padding: 30px; 
             box-shadow: 0 0 20px rgba(212,175,55,0.15);
-            box-sizing: border-box;
+            margin-bottom: 40px;
         }
 
-        /* Judul Rata Tengah */
         h2.main-title { 
             color: #fff; 
-            text-align: center !important; 
+            text-align: center; /* Judul di tengah */
             font-size: 24px; 
             margin-bottom: 30px; 
             text-transform: uppercase;
             letter-spacing: 2px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
         }
 
-        /* Form Layout */
-        .form-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-width: 600px; /* Form tetap ramping di tengah */
-            margin: 0 auto 30px auto;
+        /* FORM INPUT - LABEL & TEXT TETAP RATA KIRI */
+        .form-group { 
+            margin-bottom: 20px; 
+            text-align: left; 
         }
 
-        .form-group { text-align: left !important; }
-        .form-group label { display: block; font-size: 14px; font-weight: bold; margin-bottom: 8px; }
+        .form-group label { 
+            display: block; 
+            font-size: 14px; 
+            font-weight: bold; 
+            color: #D4AF37; 
+            margin-bottom: 8px; 
+        }
 
         .input-box {
             width: 100%; 
@@ -60,12 +61,16 @@
             color: #fff; 
             font-size: 14px; 
             box-sizing: border-box; 
-            text-align: left !important;
+            outline: none; 
+            text-align: left !important; /* Teks yang diketik tetap rata kiri */
         }
 
-        .input-box::placeholder { text-align: left !important; color: #777; }
+        .input-box::placeholder { 
+            color: #777; 
+            text-align: left !important; /* Placeholder tetap rata kiri */
+        }
 
-        /* Tombol Tambah */
+        /* TOMBOL TAMBAH - WARNA PUTIH GADING */
         .btn-submit {
             width: 100%; 
             padding: 15px; 
@@ -75,40 +80,40 @@
             border: none; 
             border-radius: 10px; 
             cursor: pointer; 
-            text-transform: uppercase;
-            margin-top: 10px;
+            font-size: 14px; 
+            text-transform: uppercase; 
+            margin-top: 10px; 
+            transition: 0.3s;
         }
+        .btn-submit:hover { background: #D4AF37; color: #fff; }
 
-        /* Summary Boxes di dalam kotak kuning */
+        /* SUMMARY BOXES */
         .summary-container { 
             display: flex; 
             gap: 15px; 
-            margin: 30px 0;
-            justify-content: center;
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 30px;
         }
         .summary-box { 
-            flex: 1; 
-            background: #222; 
-            border: 1px solid #333; 
-            border-radius: 12px; 
-            padding: 20px; 
-            text-align: center;
-            min-width: 100px;
+            flex: 1; background: #222; border: 1px solid #333; 
+            border-radius: 12px; padding: 20px; text-align: center; 
         }
         .summary-box h2 { margin: 0; font-size: 28px; color: #fff; }
-        .summary-box span { font-size: 12px; font-weight: bold; }
+        .summary-box span { color: #D4AF37; font-size: 12px; font-weight: bold; }
 
-        /* Tabel di dalam kotak kuning */
+        /* TABEL DATA - LEBAR PENUH */
         .table-wrapper { 
             width: 100%; 
+            max-width: 1000px; 
             overflow-x: auto; 
-            margin-top: 20px;
-            border-top: 1px solid #333;
-            padding-top: 20px;
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 12px;
         }
         table { width: 100%; border-collapse: collapse; min-width: 800px; }
         th { text-align: left; color: #D4AF37; padding: 12px; border-bottom: 2px solid #333; font-size: 13px; }
-        td { padding: 15px 12px; color: #fff; border-bottom: 1px solid #222; text-align: left !important; }
+        td { padding: 15px 12px; color: #fff; border-bottom: 1px solid #222; text-align: left; }
 
     </style>
 </head>
@@ -117,7 +122,7 @@
     <div class="container">
         <h2 class="main-title">🛠️ KONTROL PROJEK</h2>
 
-        <form onsubmit="addTask(event)" class="form-grid">
+        <form onsubmit="addTask(event)">
             <div class="form-group">
                 <label>Nama Claim Project :</label>
                 <input type="text" id="claim" class="input-box" placeholder="Masukkan Nama Anda" required>
@@ -138,31 +143,46 @@
                 <input type="text" id="kode" class="input-box" placeholder="Contoh: PRJ-2026-01">
             </div>
 
+            <div class="form-group">
+                <label>📁 Pekerjaan :</label>
+                <select id="pekerjaan" class="input-box">
+                    <option value="" disabled selected>Pilih Jenis Pekerjaan...</option>
+                    <option>3D (Architectural)</option>
+                    <option>2D</option>
+                    <option>RAB</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>📅 Deadline :</label>
+                <input type="date" id="deadline" class="input-box" required>
+            </div>
+
             <button type="submit" class="btn-submit">TAMBAHKAN KE DAFTAR</button>
         </form>
+    </div>
 
-        <div class="summary-container">
-            <div class="summary-box">
-                <h2 id="total">0</h2><span>SEMUA</span>
-            </div>
-            <div class="summary-box">
-                <h2 id="aktif">0</h2><span>AKTIF</span>
-            </div>
-            <div class="summary-box">
-                <h2 id="selesai">0</h2><span>SELESAI</span>
-            </div>
+    <div class="summary-container">
+        <div class="summary-box">
+            <h2 id="total">0</h2><span>SEMUA</span>
         </div>
+        <div class="summary-box">
+            <h2 id="aktif">0</h2><span>AKTIF</span>
+        </div>
+        <div class="summary-box">
+            <h2 id="selesai">0</h2><span>SELESAI</span>
+        </div>
+    </div>
 
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Pekerja</th><th>Klien</th><th>Tugas</th><th>Kode</th><th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody"></tbody>
-            </table>
-        </div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Pekerja</th><th>Klien</th><th>Tugas</th><th>Kode</th><th>Deadline</th><th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
     </div>
 
     <script>
@@ -175,6 +195,7 @@
                 klien: document.getElementById("klien").value,
                 task: document.getElementById("task").value,
                 kode: document.getElementById("kode").value,
+                deadline: document.getElementById("deadline").value,
                 status: "Pending"
             });
             localStorage.setItem('projectData', JSON.stringify(data));
@@ -186,7 +207,12 @@
             const tbody = document.getElementById("tableBody");
             tbody.innerHTML = "";
             data.forEach((d) => {
-                tbody.innerHTML += `<tr><td>${d.claim}</td><td>${d.klien}</td><td>${d.task}</td><td>${d.kode}</td><td style="color:#ffca28">${d.status}</td></tr>`;
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${d.claim}</td><td>${d.klien}</td><td>${d.task}</td>
+                        <td>${d.kode}</td><td>${d.deadline}</td>
+                        <td style="color:#ffca28">${d.status}</td>
+                    </tr>`;
             });
             document.getElementById("total").innerText = data.length;
         }
