@@ -3,50 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kontrol Projek - Judul Center</title>
+    <title>Kontrol Projek - Fixed Layout</title>
     <style>
         body { 
             background: #121212; 
             color: #D4AF37; 
             font-family: 'Segoe UI', Arial, sans-serif; 
             margin: 0; 
-            padding: 10px; 
+            padding: 20px;
         }
 
+        /* BOX KUNING UTAMA - Semua konten ada di dalam sini */
         .container { 
-            max-width: 900px; 
-            margin: 20px auto; 
+            max-width: 1000px; 
+            margin: 0 auto; 
             background: #1a1a1a; 
-            border: 1px solid #D4AF37; 
-            border-radius: 12px; 
-            padding: 25px; 
-            box-shadow: 0 0 15px rgba(212,175,55,0.1);
+            border: 2px solid #D4AF37; /* Garis kotak kuning */
+            border-radius: 15px; 
+            padding: 30px; 
+            box-shadow: 0 0 20px rgba(212,175,55,0.15);
+            box-sizing: border-box;
         }
 
-        /* BAGIAN YANG DIUBAH: Judul Rata Tengah */
+        /* Judul Rata Tengah */
         h2.main-title { 
             color: #fff; 
-            text-align: center !important; /* Paksa ke tengah */
+            text-align: center !important; 
             font-size: 24px; 
             margin-bottom: 30px; 
-            display: block; 
             text-transform: uppercase;
             letter-spacing: 2px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* FORM INPUT - TETAP RATA KIRI */
-        .form-group { 
-            margin-bottom: 20px; 
-            text-align: left !important; 
+        /* Form Layout */
+        .form-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 600px; /* Form tetap ramping di tengah */
+            margin: 0 auto 30px auto;
         }
 
-        .form-group label { 
-            display: block; 
-            font-size: 14px; 
-            font-weight: bold; 
-            color: #D4AF37; 
-            margin-bottom: 8px; 
-        }
+        .form-group { text-align: left !important; }
+        .form-group label { display: block; font-size: 14px; font-weight: bold; margin-bottom: 8px; }
 
         .input-box {
             width: 100%; 
@@ -57,39 +60,56 @@
             color: #fff; 
             font-size: 14px; 
             box-sizing: border-box; 
-            outline: none; 
-            text-align: left !important; /* Isi teks tetap di kiri */
+            text-align: left !important;
         }
 
-        .input-box::placeholder { 
-            color: #777; 
-            text-align: left !important; /* Placeholder tetap di kiri */
-        }
+        .input-box::placeholder { text-align: left !important; color: #777; }
 
-        /* TOMBOL PUTIH GADING */
+        /* Tombol Tambah */
         .btn-submit {
             width: 100%; 
-            padding: 14px; 
+            padding: 15px; 
             background: #fffde7; 
             color: #000; 
             font-weight: bold; 
             border: none; 
             border-radius: 10px; 
             cursor: pointer; 
-            font-size: 14px; 
-            text-transform: uppercase; 
+            text-transform: uppercase;
             margin-top: 10px;
         }
 
-        /* SUMMARY & TABEL */
-        .summary-container { display: flex; gap: 15px; margin: 30px 0; }
-        .summary-box { flex: 1; background: #222; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center; }
-        .summary-box h2 { margin: 0; color: #fff; }
-        
-        .table-wrapper { width: 100%; overflow-x: auto; }
+        /* Summary Boxes di dalam kotak kuning */
+        .summary-container { 
+            display: flex; 
+            gap: 15px; 
+            margin: 30px 0;
+            justify-content: center;
+        }
+        .summary-box { 
+            flex: 1; 
+            background: #222; 
+            border: 1px solid #333; 
+            border-radius: 12px; 
+            padding: 20px; 
+            text-align: center;
+            min-width: 100px;
+        }
+        .summary-box h2 { margin: 0; font-size: 28px; color: #fff; }
+        .summary-box span { font-size: 12px; font-weight: bold; }
+
+        /* Tabel di dalam kotak kuning */
+        .table-wrapper { 
+            width: 100%; 
+            overflow-x: auto; 
+            margin-top: 20px;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
         table { width: 100%; border-collapse: collapse; min-width: 800px; }
-        th { text-align: left; color: #D4AF37; padding: 10px; border-bottom: 1px solid #333; }
-        td { padding: 15px 10px; color: #fff; border-bottom: 1px solid #222; text-align: left; }
+        th { text-align: left; color: #D4AF37; padding: 12px; border-bottom: 2px solid #333; font-size: 13px; }
+        td { padding: 15px 12px; color: #fff; border-bottom: 1px solid #222; text-align: left !important; }
+
     </style>
 </head>
 <body>
@@ -97,7 +117,7 @@
     <div class="container">
         <h2 class="main-title">🛠️ KONTROL PROJEK</h2>
 
-        <form onsubmit="addTask(event)">
+        <form onsubmit="addTask(event)" class="form-grid">
             <div class="form-group">
                 <label>Nama Claim Project :</label>
                 <input type="text" id="claim" class="input-box" placeholder="Masukkan Nama Anda" required>
@@ -116,21 +136,6 @@
             <div class="form-group">
                 <label>🔢 Kode Projek :</label>
                 <input type="text" id="kode" class="input-box" placeholder="Contoh: PRJ-2026-01">
-            </div>
-
-            <div class="form-group">
-                <label>📁 Pekerjaan :</label>
-                <select id="pekerjaan" class="input-box">
-                    <option value="" disabled selected>Pilih Jenis Pekerjaan...</option>
-                    <option>3D (Architectural)</option>
-                    <option>2D</option>
-                    <option>RAB</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>📅 Deadline :</label>
-                <input type="date" id="deadline" class="input-box" required>
             </div>
 
             <button type="submit" class="btn-submit">TAMBAHKAN KE DAFTAR</button>
@@ -162,6 +167,7 @@
 
     <script>
         let data = JSON.parse(localStorage.getItem('projectData')) || [];
+
         function addTask(e) {
             e.preventDefault();
             data.push({
@@ -175,6 +181,7 @@
             e.target.reset();
             render();
         }
+
         function render() {
             const tbody = document.getElementById("tableBody");
             tbody.innerHTML = "";
